@@ -23,6 +23,8 @@ namespace Musiknotenspiel.Klassen
         public void UpdateScore(int points)
         {
             score += points;
+            if (score < 0)
+                score = 0;
             Notify(score);
         }
 

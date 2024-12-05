@@ -4,17 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Musiknoten-Spiel" Height="450" Width="800">
-    <Grid>
-        <!-- Notenanzeige -->
+        Title="Musiknoten-Spiel" Height="550" Width="900">
+    <Grid ClipToBounds="False">
+       
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
             <TextBlock Text="Spiele die Melodie!" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
-            <StackPanel Orientation="Horizontal" Name="NotesDisplay" Margin="0,10,0,10">
-                <!-- Noten werden dynamisch hinzugefügt -->
-            </StackPanel>
+            
         </StackPanel>
 
-        <!-- Punkte- und Fortschrittsanzeige -->
+        <!-- Notenanzeige -->
+        <StackPanel Orientation="Horizontal" Name="NotesDisplay" Margin="412,93,-3529,342">
+            <StackPanel.RenderTransform>
+                <TranslateTransform x:Name="StackPanelTransform" />
+            </StackPanel.RenderTransform>
+            <!-- Note dynamisch einfügen -->
+        </StackPanel>
+
+
+        <!-- Punkteanzeige -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20">
             <TextBlock Text="Punkte: " FontSize="16" />
             <TextBlock Name="ScoreLabel" Text="0" FontSize="16" FontWeight="Bold" />
@@ -30,19 +37,31 @@
             <Button Content="G" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="G" />
             <Button Content="A" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="A" />
             <Button Content="B" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="B" />
-            <Button Content="C'" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="C'" />
+
+            <Button Content="C" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="C2" />
+            <Button Content="D" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="D2" />
+            <Button Content="E" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="E2" />
+            <Button Content="F" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="F2" />
+            <Button Content="G" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="G2" />
+            <Button Content="A" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="A2" />
+            <Button Content="B" Width="60" Height="160" Background="White" BorderBrush="Black" Click="OnPianoKeyClick" Tag="B2" />
+
         </StackPanel>
 
         <!-- Schwarze Tasten -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30,0,10,170">
-            <!-- Setze schwarze Tasten zwischen die weißen -->
-            <Button Content="#" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="C#" />
-            <Button Content="#" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="30,0,0,0" Click="OnPianoKeyClick" Tag="D#" />
-            <!-- Leere Bereiche für fehlende schwarze Tasten -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,320,0,0" Width="804" Height="97" RenderTransformOrigin="0.501,1.374">
+            <Button Content="C#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="C#" />
+            <Button Content="D#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="D#" />
             <Label Width="60" />
-            <Button Content="#" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="30,0,0,0" Click="OnPianoKeyClick" Tag="F#" />
-            <Button Content="#" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="30,0,0,0" Click="OnPianoKeyClick" Tag="G#" />
-            <Button Content="#" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="30,0,0,0" Click="OnPianoKeyClick" Tag="A#" />
+            <Button Content="F#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="F#" />
+            <Button Content="G#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="G#" />
+            <Button Content="A#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="A#" />
+            <Button Content="C#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="85,0,0,0" Click="OnPianoKeyClick" Tag="C#2" />
+            <Button Content="D#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="D#2" />
+            <Label Width="60" />
+            <Button Content="F#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="F#2" />
+            <Button Content="G#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="G#2" />
+            <Button Content="A#" Foreground="White" Width="40" Height="100" Background="Black" BorderBrush="Black" Margin="20,0,0,0" Click="OnPianoKeyClick" Tag="A#2" />
         </StackPanel>
     </Grid>
 </Window>

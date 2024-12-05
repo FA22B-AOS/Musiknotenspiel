@@ -22,12 +22,12 @@ namespace Musiknotenspiel.Klassen
 
         public void OnError(Exception error)
         {
-            // Fehlerbehandlung (nicht relevant in diesem Fall)
+
         }
 
         public void OnCompleted()
         {
-            // Wird aufgerufen, wenn keine weiteren Updates erfolgen
+
         }
     }
 }

@@ -32,7 +32,16 @@ namespace Musiknotenspiel
 
         private void InitializeMelody()
         {
-            currentMelody = new List<string> { "C", "E", "G", "C'", "C" };
+            var melodyList = new List<List<string>>();
+            melodyList.Add(new List<string> { "C", "D", "E", "F", "G", "A", "B", "A", "G", "F", "E", "D", "C" });
+            melodyList.Add(new List<string> { "C", "E", "G", "B", "A", "F#", "D", "G", "C2", "B", "A#", "D#2", "C2" });
+            melodyList.Add(new List<string> { "E", "G", "F", "A", "G", "B", "A", "G", "F", "E", "D", "C" });
+            melodyList.Add(new List<string> { "C", "G", "A", "F", "E", "G", "D2", "C2", "A2", "G2", "F2", "D2", "C2" });
+            melodyList.Add(new List<string> { "A", "F", "G#", "E", "D#", "F", "A#", "G", "C2", "G#", "A", "F#" });
+            melodyList.Add(new List<string> { "C", "D", "E", "F", "G", "G", "A", "A", "A", "A", "G", "A", "A", "A", "A", "G", "F", "F", "F", "F", "E", "E", "D", "D", "D", "D", "C" });
+
+            Random random = new Random();
+            currentMelody = melodyList[random.Next(0, melodyList.Count)];
 
             NotesDisplay.Children.Clear();
 
@@ -90,7 +99,19 @@ namespace Musiknotenspiel
                 { "A", 69 },
                 { "A#", 70 },
                 { "B", 71 },
-                { "C'", 72 }
+
+                { "C2", 72 },
+                { "C#2", 73 },
+                { "D2", 74 },
+                { "D#2", 75 },
+                { "E2", 76 },
+                { "F2", 77 },
+                { "F#2", 78 },
+                { "G2", 79 },
+                { "G#2", 80 },
+                { "A2", 81 },
+                { "A#2", 82 },
+                { "B2", 83 }
             };
 
             if (noteMapping.TryGetValue(pressedNote, out int midiNote))
@@ -107,18 +128,28 @@ namespace Musiknotenspiel
                     if (currentNoteIndex >= currentMelody.Count)
                     {
                         MessageBox.Show("Bravo! Du hast die Melodie fertig gespielt!");
+                        for (int i = 0; i < currentMelody.Count; i++)
+                            ShiftNotes(-40);
                         InitializeMelody(); 
                         currentNoteIndex = 0;
                     }
                 }
                 else
                 {
-                   // MessageBox.Show("Falscher Ton! Versuch es nochmal.");
+                    gameManager.UpdateScore(-10);
                 }
             }
             else
             {
                 MessageBox.Show($"Unbekannte Note: {pressedNote}");
+            }
+        }
+
+        private void ShiftNotes(double offsetX)
+        {
+            if (NotesDisplay.RenderTransform is TranslateTransform transform)
+            {
+                transform.X -= offsetX; 
             }
         }
 
@@ -135,6 +166,7 @@ namespace Musiknotenspiel
                     if (ellipse != null)
                     {
                         ellipse.Fill = Brushes.LightGreen;
+                        ShiftNotes(40);
                     }
                 }
             }

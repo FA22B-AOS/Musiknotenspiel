@@ -5,6 +5,7 @@ namespace Musiknotenspiel.Klassen
     internal class MidiPlayer : IDisposable
     {
         private MidiOut midiOut;
+        private static int channelCount = 0;
 
         public MidiPlayer()
         {
@@ -12,8 +13,9 @@ namespace Musiknotenspiel.Klassen
         }
 
         public async Task PlayNoteAsync(int noteNumber, int velocity = 127, int duration = 500)
-        {
-            midiOut.Send(MidiMessage.StartNote(noteNumber, velocity, 1).RawData);
+        {   
+            channelCount++;
+            midiOut.Send(MidiMessage.StartNote(noteNumber, velocity, channelCount).RawData);
 
             await Task.Delay(duration);
 
@@ -22,7 +24,8 @@ namespace Musiknotenspiel.Klassen
 
         public void StopNote(int noteNumber)
         {
-            midiOut.Send(MidiMessage.StopNote(noteNumber, 0, 1).RawData);
+            midiOut.Send(MidiMessage.StopNote(noteNumber, 0, channelCount).RawData);
+            channelCount--;
         }
 
         public void ChangeInstrument(int patchNumber)
