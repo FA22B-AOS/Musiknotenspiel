@@ -13,9 +13,10 @@ namespace Musiknotenspiel
         private GameManager gameManager;
         private ScoreDisplay scoreDisplay;
         private MidiPlayer midiPlayer;
+        private MelodyManager melodyManager;
 
-        private List<string> currentMelody;
-        private int currentNoteIndex = 0;
+        private Melody currentMelody;
+        private int currentNoteIndex;
 
         public MainWindow()
         {
@@ -24,6 +25,8 @@ namespace Musiknotenspiel
             gameManager = new GameManager();
             midiPlayer = new MidiPlayer();
             midiPlayer.ChangeInstrument(1);
+            melodyManager = new MelodyManager("melodies.csv");
+            melodyManager.LoadFromFile();
             scoreDisplay = new ScoreDisplay(ScoreLabel);
             gameManager.Subscribe(scoreDisplay);
 
@@ -32,20 +35,15 @@ namespace Musiknotenspiel
 
         private void InitializeMelody()
         {
-            var melodyList = new List<List<string>>();
-            melodyList.Add(new List<string> { "C", "D", "E", "F", "G", "A", "B", "A", "G", "F", "E", "D", "C" });
-            melodyList.Add(new List<string> { "C", "E", "G", "B", "A", "F#", "D", "G", "C2", "B", "A#", "D#2", "C2" });
-            melodyList.Add(new List<string> { "E", "G", "F", "A", "G", "B", "A", "G", "F", "E", "D", "C" });
-            melodyList.Add(new List<string> { "C", "G", "A", "F", "E", "G", "D2", "C2", "A2", "G2", "F2", "D2", "C2" });
-            melodyList.Add(new List<string> { "A", "F", "G#", "E", "D#", "F", "A#", "G", "C2", "G#", "A", "F#" });
-            melodyList.Add(new List<string> { "C", "D", "E", "F", "G", "G", "A", "A", "A", "A", "G", "A", "A", "A", "A", "G", "F", "F", "F", "F", "E", "E", "D", "D", "D", "D", "C" });
-
             Random random = new Random();
-            currentMelody = melodyList[random.Next(0, melodyList.Count)];
+            currentMelody = melodyManager.Melodies[random.Next(0, melodyManager.MelodyCount)];
+            Title.Text = currentMelody.Name;
 
             NotesDisplay.Children.Clear();
 
-            foreach (var note in currentMelody)
+            currentNoteIndex = 0;
+
+            foreach (var note in currentMelody.Notes)
             {
                 var noteContainer = new StackPanel
                 {
@@ -118,20 +116,19 @@ namespace Musiknotenspiel
             {
                 await midiPlayer.PlayNoteAsync(midiNote);
 
-                if (pressedNote == currentMelody[currentNoteIndex])
+                if (pressedNote == currentMelody.Notes[currentNoteIndex])
                 {
                     HighlightCurrentNote();
 
                     currentNoteIndex++;
                     gameManager.UpdateScore(10);
 
-                    if (currentNoteIndex >= currentMelody.Count)
+                    if (currentNoteIndex >= currentMelody.Notes.Count)
                     {
                         MessageBox.Show("Bravo! Du hast die Melodie fertig gespielt!");
-                        for (int i = 0; i < currentMelody.Count; i++)
+                        for (int i = 0; i < currentMelody.Notes.Count; i++)
                             ShiftNotes(-40);
                         InitializeMelody(); 
-                        currentNoteIndex = 0;
                     }
                 }
                 else
